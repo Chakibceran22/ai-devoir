@@ -349,4 +349,52 @@ dernier([_|T], X) :-
 Le prédicat `dernier(L, X)` trouve le dernier élément X d'une liste L.
 
 1. **Cas de base**: Si la liste ne contient qu'un seul élément, alors cet élément est le dernier.
-2. **Cas récursif**: Pour une liste plus longue, le dernier
+2. **Cas récursif**: Pour une liste plus longue, le dernier élément est le dernier élément de la queue.
+
+**Exemple**: `dernier([1,2,3,4], X)`
+1. La liste a plusieurs éléments, donc on utilise la 2ème règle
+2. On ignore la tête (1) et on cherche le dernier élément dans [2,3,4]
+3. On ignore la tête (2) et on cherche dans [3,4]
+4. On ignore la tête (3) et on cherche dans [4]
+5. [4] est une liste avec un seul élément, donc on utilise la 1ère règle
+6. X = 4
+
+---
+
+## Exercice 11: est_trié(L)
+
+### Code
+
+```prolog
+% Cas de base: liste vide et liste à un élément sont toujours triées
+est_trié([]).
+est_trié([_]).
+
+% Cas récursif: une liste est triée si premier ≤ second et le reste est trié
+est_trié([A, B|T]) :-
+    A =< B,
+    est_trié([B|T]).
+```
+
+### Explication
+
+Le prédicat `est_trié(L)` vérifie si une liste L est triée en ordre croissant.
+
+1. **Cas de base**:
+   - Une liste vide est toujours triée.
+   - Une liste avec un seul élément est toujours triée.
+2. **Cas récursif**: Une liste avec au moins deux éléments est triée si:
+   - Le premier élément (A) est inférieur ou égal au deuxième élément (B)
+   - ET la liste commençant par B jusqu'à la fin est également triée
+
+**Exemple**: `est_trié([1,2,3,4])`
+1. 1 ≤ 2, donc on continue et on vérifie si [2,3,4] est trié
+2. 2 ≤ 3, donc on continue et on vérifie si [3,4] est trié
+3. 3 ≤ 4, donc on continue et on vérifie si [4] est trié
+4. [4] est une liste avec un seul élément, donc elle est triée (cas de base)
+5. Résultat: `true`
+
+**Contre-exemple**: `est_trié([1,3,2,4])`
+1. 1 ≤ 3, donc on continue et on vérifie si [3,2,4] est trié
+2. 3 > 2, la condition échoue
+3. Résultat: `false`
